@@ -20,18 +20,18 @@ public class Student implements Pojo {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "appello_prenotato",
-            joinColumns = @JoinColumn(name = "studente_id"),
-            inverseJoinColumns = @JoinColumn(name = "appello_mat")
-    )
-    private List<Appello> prenotazioni = new LinkedList<>();
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "appello_completato",
             joinColumns = @JoinColumn(name = "studente_mat"),
             inverseJoinColumns = @JoinColumn(name = "appello_id")
     )
-    private List<Appello> completato = new LinkedList<>();
+    private List<Appello> prenotazioni = new LinkedList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "appello_completato",
+            joinColumns = @JoinColumn(name = "studente_mat"),
+            inverseJoinColumns = @JoinColumn(name = "risultato_id")
+    )
+    private List<Risultato> risultati = new LinkedList<>();
 
     public String getCodCorso() {
         return codCorso;
@@ -49,12 +49,12 @@ public class Student implements Pojo {
         this.prenotazioni = prenotazioni;
     }
 
-    public List<Appello> getCompletato() {
-        return completato;
+    public List<Risultato> getCompletato() {
+        return risultati;
     }
 
-    public void setCompletato(List<Appello> completato) {
-        this.completato = completato;
+    public void setCompletato(List<Risultato> completato) {
+        this.risultati = completato;
     }
 
     public String getMat() {

@@ -1,0 +1,55 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "application.services";
+
+// The greeting service definition.
+service user_services {
+  // Login function
+  rpc login(Credentials) returns (User);
+
+  // get degli appelli disponibili per l'utente indicato
+  rpc getDisponibili(Credentials) returns (ListaAppelli);
+
+  // Logout
+  rpc logout(Vuoto) returns (GenericResponse);
+
+  //prenota un appello
+  rpc prenota(AppelloID) returns (GenericResponse);
+
+  //cancella prenotazione
+  rpc cancella(AppelloID) returns (GenericResponse);
+
+  // conferma partecipazione appello
+}
+
+// The request message containing the user's name.
+message Credentials {
+  string mat = 1;
+  string cf = 2;
+}
+
+// The response message containing the greetings
+message GenericResponse {
+  int32 result = 1;
+  string message = 2;
+}
+
+//info about user and status (may fail)
+message User{
+  bytes user_obj = 1;
+  int32 status = 2;
+  string message = 3;
+}
+
+message  AppelloID{
+  int64 id = 1;
+}
+
+message ListaAppelli{
+  bytes list_obj = 1;
+  int32 status = 2;
+  string message = 3;
+}
+
+//void message
+message Vuoto{}

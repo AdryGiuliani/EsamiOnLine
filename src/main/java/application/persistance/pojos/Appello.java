@@ -23,11 +23,16 @@ public class Appello implements Pojo{
     private Date data_ora;
 
     @ManyToMany(mappedBy = "prenotazioni",cascade = CascadeType.ALL)
-    private Set<Student> studentiPrenotati = new HashSet<>();
+    private Set<Student> studentiPrenotati;
+
+    @OneToOne(mappedBy = "completed_appello")
+    private Risultato risultati;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn
     private List<Domanda> domande = new ArrayList<>();
+
+
     @Override
     public Object getId() {
         return id;
@@ -71,5 +76,32 @@ public class Appello implements Pojo{
 
     public void setDomande(List<Domanda> domande) {
         this.domande = domande;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+    public int getTempo_domanda_sec() {
+        return tempo_domanda_sec;
+    }
+
+    public void setTempo_domanda_sec(int tempo_domanda_sec) {
+        this.tempo_domanda_sec = tempo_domanda_sec;
+    }
+
+    public Set<Student> getStudentiPrenotati() {
+        return studentiPrenotati;
+    }
+
+    public void setStudentiPrenotati(Set<Student> studentiPrenotati) {
+        this.studentiPrenotati = studentiPrenotati;
+    }
+
+    public Risultato getRisultati() {
+        return risultati;
+    }
+
+    public void setRisultati(Risultato risultati) {
+        this.risultati = risultati;
     }
 }
