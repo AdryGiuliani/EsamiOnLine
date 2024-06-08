@@ -1,0 +1,76 @@
+syntax = "proto3";
+option java_outer_classname = "ClientGRPC";
+option java_multiple_files = true;
+option java_package = "gen.javaproto";
+
+// The greeting service definition.
+service FrontendServices {
+  // Login function
+  rpc login(Credentials) returns (AllData);
+  //una volta accesso al sistema tutte le richieste conterranno metadata su id utente
+
+    // Logout
+    rpc logout(Vuoto) returns (GenericResponse); //one way
+
+    // get degli appelli disponibili per l'utente indicato
+    rpc getDisponibili(Vuoto) returns (ListaAppelli);
+
+
+
+    //prenota un appello, restituisce la lista aggiornata se è cambiata
+    rpc prenota(AppelloID) returns (ListaAppelli);
+
+    //cancella prenotazione
+    rpc cancella(AppelloID) returns (GenericResponse);
+
+    // conferma partecipazione appello
+    rpc partecipa(AppelloID) returns (User);
+
+    // conclusione appello dall'utente
+    rpc concludi(CompletedAppello) returns (GenericResponse);
+
+}
+
+// The request message containing the user's name.
+message Credentials {
+  string mat = 1;
+  string cf = 2;
+}
+
+// The response message containing the greetings
+message GenericResponse {
+  int32 result = 1;
+  string message = 2;
+}
+
+//tutti gli appelli per caricare la home dell'utente
+message AllData{
+  bytes user_obj = 1;
+  bytes list_obj = 2;
+  int32 status = 3;
+  string message = 4;
+}
+
+//info about user and status (may fail)
+message User{
+  bytes user_obj = 1;
+  int32 status = 2;
+  string message = 3;
+}
+
+message  AppelloID{
+  int64 id = 1;
+}
+
+message ListaAppelli{
+  bytes list_obj = 1;
+  int32 status = 2;
+  string message = 3;
+}
+
+message CompletedAppello{
+  int64 idAppello = 1;
+  int32 punteggio = 2;
+}
+//void message
+message Vuoto{}

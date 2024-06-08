@@ -10,6 +10,18 @@ import java.util.*;
         @UniqueConstraint(name = "unicoAppello", columnNames = {"nome","corso","data_ora"})
         })
 public class Appello implements Pojo{
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appello appello)) return false;
+        return id == appello.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, codCorso, durata_minuti, tempo_domanda_sec, data_ora, studentiPrenotati, risultati, domande);
+    }
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)

@@ -37,9 +37,7 @@ public class App {
         app.setDomande(dom);
         app.setNome("pipo");
 
-        ArrayList<Pojo> pojos = new ArrayList<>();
-        pojos.add(app);
-        pojos.add(d);
-        db.salva(pojos);
+
+        db.salva(app,d);
     }
 }

@@ -6,6 +6,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "studente")
+
 public class Student implements Pojo {
 
     @Id

@@ -13,7 +13,7 @@ import java.util.Collection;
 public interface Database {
 
     SessionCreator sc = SessionCreator.getInstance();
-    default boolean salva(Collection<Pojo> coll){
+    default boolean salva(Pojo... coll){
         boolean status = true;
         try {
             Session session = sc.getSession();
@@ -30,12 +30,20 @@ public interface Database {
         return status;
 
     };
+
+    /**
+     * carica l'oggetto con il dato Id e del tipo di obj dentro obj stesso, ritorna false se la
+     * query non è stata eseguita, assegna invece obj = null se non è stato trovato
+     * @param obj
+     * @param id
+     * @return
+     */
     default boolean carica(Pojo obj, Object id){
         boolean status = true;
         try {
             Session session = sc.getSession();
             Transaction tx = session.beginTransaction();
-            session.load(obj, id);
+            obj = session.get(obj.getClass(), id);
             tx.commit();
             session.close();
         }catch (Exception e){
@@ -87,5 +95,9 @@ public interface Database {
             status = false;
         }
         return status;
-    };
+    }
+    default boolean esiste(Pojo placeholder ,Object id){
+        this.carica(placeholder,id);
+        return placeholder!=null;
+    }
 }
