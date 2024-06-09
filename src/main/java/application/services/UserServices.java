@@ -1,15 +1,22 @@
 package application.services;
+
 import application.persistance.DBEsami;
+import application.validation.Capsule;
+import application.validation.CapsuleValidate;
+import application.validation.LoginDispatcher;
+import com.google.protobuf.ByteString;
 import gen.javaproto.*;
 import io.grpc.stub.StreamObserver;
 
-public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBase{
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
 
     private DBEsami db;
-    private
-    ServizioUtente(){
+    public UserServices() {}
 
-    }
     /**
      * <pre>
      * Login function
@@ -19,12 +26,22 @@ public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBas
      * @param responseObserver
      */
     @Override
-    public void login(Credentials request, StreamObserver<AllData> responseObserver) {
-        String mat = request.getMat();
-        String cf = request.getCf();
-        AllData response = AllData.newBuilder()
-        if (verificaCredenziali(mat))
-
+    public void login(Credentials request, StreamObserver<Dto> responseObserver) {
+        CapsuleValidate c = new CapsuleValidate();
+        c.setCredentials(request);
+        new LoginDispatcher().dispatch(c);
+        byte[] dto = null;
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(c);
+            dto = bos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Dto dt = Dto.newBuilder().setUnparsedDto(ByteString.copyFrom(dto)).build();
+        responseObserver.onNext(dt);
+        responseObserver.onCompleted();
     }
 
     /**
@@ -49,7 +66,7 @@ public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBas
      * @param responseObserver
      */
     @Override
-    public void getDisponibili(Vuoto request, StreamObserver<ListaAppelli> responseObserver) {
+    public void getDisponibili(Vuoto request, StreamObserver<Dto> responseObserver) {
         super.getDisponibili(request, responseObserver);
     }
 
@@ -62,7 +79,7 @@ public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBas
      * @param responseObserver
      */
     @Override
-    public void prenota(AppelloID request, StreamObserver<ListaAppelli> responseObserver) {
+    public void prenota(AppelloID request, StreamObserver<Dto> responseObserver) {
         super.prenota(request, responseObserver);
     }
 
@@ -75,7 +92,7 @@ public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBas
      * @param responseObserver
      */
     @Override
-    public void cancella(AppelloID request, StreamObserver<GenericResponse> responseObserver) {
+    public void cancella(AppelloID request, StreamObserver<Dto> responseObserver) {
         super.cancella(request, responseObserver);
     }
 
@@ -88,7 +105,7 @@ public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBas
      * @param responseObserver
      */
     @Override
-    public void partecipa(AppelloID request, StreamObserver<User> responseObserver) {
+    public void partecipa(AppelloID request, StreamObserver<Dto> responseObserver) {
         super.partecipa(request, responseObserver);
     }
 
@@ -101,7 +118,7 @@ public class ServizioUtente extends FrontendServicesGrpc.FrontendServicesImplBas
      * @param responseObserver
      */
     @Override
-    public void concludi(CompletedAppello request, StreamObserver<GenericResponse> responseObserver) {
+    public void concludi(CompletedAppello request, StreamObserver<Dto> responseObserver) {
         super.concludi(request, responseObserver);
     }
 }

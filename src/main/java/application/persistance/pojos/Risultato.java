@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "risultato")
-public class Risultato {
+public class Risultato extends PojoAbstract{
 
     @Id
     @GeneratedValue
@@ -24,7 +24,7 @@ public class Risultato {
 
     private int punteggio;
 
-    public long getId() {
+    public Object getId() {
         return id;
     }
 

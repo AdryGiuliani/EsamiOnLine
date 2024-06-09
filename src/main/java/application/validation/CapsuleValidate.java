@@ -1,61 +1,44 @@
 package application.validation;
 
-import application.persistance.pojos.Pojo;
+import application.persistance.pojos.Appello;
+import application.persistance.pojos.Risultato;
+import application.persistance.pojos.Student;
 import gen.javaproto.Credentials;
 
-public class CapsuleValidate implements  Capsule {
+import java.util.HashMap;
+import java.util.List;
 
-    private Credentials credenziali;
-    private Object id;
-    private Pojo pojo;
-    private Exception except = null;
+public class CapsuleValidate extends AbstractCapsule{
 
-    public CapsuleValidate(Credentials credenziali, Pojo pojo, Object id) {
-        this.credenziali = credenziali;
-        this.pojo = pojo;
-        this.id = id;
+
+    public CapsuleValidate(){
+        payload=new HashMap<>(8);
     }
 
-    public CapsuleValidate() {}
-
-
-    @Override
-    public Credentials getCredentials() {
-        return credenziali;
+    public void setCredentials(Credentials credentials){
+        insertObject(Utils.CAPSULE_KEY_CREDENZIALI, credentials);
+    }
+    public Credentials getCredentials(){
+        return (Credentials) payload.get(Utils.CAPSULE_KEY_CREDENZIALI);
+    }
+    public void setStudent(Student student){
+        insertObject(Utils.CAPSULE_KEY_STUDENTE, student);
+    }
+    public Student getStudent(){
+        return (Student) payload.get(Utils.CAPSULE_KEY_STUDENTE);
+    }
+    public void setAppelloID(Long appelloid){
+        insertObject(Utils.CAPSULE_KEY_APPELLOID, appelloid);
+    }
+    public Long getAppelloID(){
+        return (Long) payload.get(Utils.CAPSULE_KEY_APPELLOID);
+    }
+    public void setAppelloCompletato(Risultato res){
+        insertObject(Utils.CAPSULE_KEY_RISULTATO, res);
+    }
+    public Risultato getAppelloCompletato(){
+        return (Risultato) payload.get(Utils.CAPSULE_KEY_RISULTATO);
     }
 
-    @Override
-    public void setCredentials(Credentials credentials) {
-        this.credenziali = credentials;
-    }
 
-    @Override
-    public Object getID() {
-        return id;
-    }
-
-    @Override
-    public void setID(Object ID) {
-        this.id = ID;
-    }
-
-    @Override
-    public Pojo getPojo() {
-        return pojo;
-    }
-
-    @Override
-    public void setPojo(Pojo pojo) {
-        this.pojo = pojo;
-    }
-
-    @Override
-    public Exception getException() {
-        return except;
-    }
-
-    @Override
-    public void setException(Exception exception) {
-        except = exception;
-    }
 }

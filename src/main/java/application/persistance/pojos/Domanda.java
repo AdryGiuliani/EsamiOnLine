@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "domanda")
-public final class Domanda implements Pojo{
+public final class Domanda extends PojoAbstract{
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String text;
@@ -24,5 +24,14 @@ public final class Domanda implements Pojo{
     @Override
     public Object getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Domanda{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", risposte=" + risposte +
+                '}';
     }
 }

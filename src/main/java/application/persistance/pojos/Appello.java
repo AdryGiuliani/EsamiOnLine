@@ -9,7 +9,7 @@ import java.util.*;
         uniqueConstraints = {
         @UniqueConstraint(name = "unicoAppello", columnNames = {"nome","corso","data_ora"})
         })
-public class Appello implements Pojo{
+public class Appello extends PojoAbstract{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

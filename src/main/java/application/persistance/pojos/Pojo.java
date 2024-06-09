@@ -7,5 +7,4 @@ import jakarta.persistence.Entity;
  */
 public interface Pojo {
     public Object getId();
-
 }

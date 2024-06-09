@@ -2,8 +2,10 @@ package application.persistance.pojos;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Embeddable
-public final class Risposta{
+public final class Risposta implements Serializable {
 
     private boolean corretta = false;
     private String text;
@@ -13,4 +15,12 @@ public final class Risposta{
         this.text = text;
     }
     public Risposta() {}
+
+    @Override
+    public String toString() {
+        return "Risposta{" +
+                "corretta=" + corretta +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

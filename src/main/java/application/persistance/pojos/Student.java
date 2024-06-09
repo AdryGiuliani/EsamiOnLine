@@ -7,7 +7,7 @@ import java.util.*;
 @Entity
 @Table(name = "studente")
 
-public class Student implements Pojo {
+public class Student extends PojoAbstract {
 
     @Id
     @Column(name = "mat") //prende in automatico se coincide con il valore attributo

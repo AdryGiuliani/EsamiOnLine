@@ -6,28 +6,28 @@ option java_package = "gen.javaproto";
 // The greeting service definition.
 service FrontendServices {
   // Login function
-  rpc login(Credentials) returns (AllData);
+  rpc login(Credentials) returns (Dto);
   //una volta accesso al sistema tutte le richieste conterranno metadata su id utente
 
     // Logout
     rpc logout(Vuoto) returns (GenericResponse); //one way
 
     // get degli appelli disponibili per l'utente indicato
-    rpc getDisponibili(Vuoto) returns (ListaAppelli);
+    rpc getDisponibili(Vuoto) returns (Dto);
 
 
 
     //prenota un appello, restituisce la lista aggiornata se è cambiata
-    rpc prenota(AppelloID) returns (ListaAppelli);
+    rpc prenota(AppelloID) returns (Dto);
 
     //cancella prenotazione
-    rpc cancella(AppelloID) returns (GenericResponse);
+    rpc cancella(AppelloID) returns (Dto);
 
     // conferma partecipazione appello
-    rpc partecipa(AppelloID) returns (User);
+    rpc partecipa(AppelloID) returns (Dto);
 
     // conclusione appello dall'utente
-    rpc concludi(CompletedAppello) returns (GenericResponse);
+    rpc concludi(CompletedAppello) returns (Dto);
 
 }
 
@@ -74,3 +74,7 @@ message CompletedAppello{
 }
 //void message
 message Vuoto{}
+
+message Dto{
+  bytes unparsedDto = 1;
+}

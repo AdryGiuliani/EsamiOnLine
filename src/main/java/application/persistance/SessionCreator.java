@@ -2,12 +2,21 @@ package application.persistance;
 
 
 import application.TestDB;
+
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import static application.persistance.Utils.*;
-import static application.persistance.Utils.DB_PWD;
+import java.net.ConnectException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import static application.persistance.util.Utils.*;
+import static application.persistance.util.Utils.DB_PWD;
 
 //pattern singleton implementato tramite Bill Pugh Singleton
 public class SessionCreator {
@@ -26,7 +35,17 @@ public class SessionCreator {
     private static class SessionCreatorHelper{
         private static final SessionCreator instance = new SessionCreator();
     }
+    private static class EMCreatorHelper{
+        private static final EntityManagerFactory instance;
+
+        static {
+                instance = getInstance().getSession().getEntityManagerFactory();
+        }
+    }
     public static SessionCreator getInstance(){
         return SessionCreatorHelper.instance;
+    }
+    public static EntityManagerFactory getEMfactory(){
+        return EMCreatorHelper.instance;
     }
 }
