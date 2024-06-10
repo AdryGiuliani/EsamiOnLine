@@ -1,9 +1,7 @@
 package application.validation;
 
-import com.google.protobuf.AbstractMessage;
-import gen.javaproto.AllData;
-import gen.javaproto.AllDataOrBuilder;
-import gen.javaproto.Credentials;
+import application.validation.chainsteps.AuthStep;
+import application.validation.chainsteps.Capsule;
 
 /**
  * Validation of student credential, the cap is required to have a credential field

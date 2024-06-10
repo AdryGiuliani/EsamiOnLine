@@ -1,6 +1,4 @@
-package application.validation;
-
-import application.exceptions.CredenzialiErrateException;
+package application.validation.chainsteps;
 
 public interface Step {
     public void execute(Capsule cap);

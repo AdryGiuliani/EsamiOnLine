@@ -23,9 +23,18 @@ public class Risultato extends PojoAbstract{
     private List<Student> studenti = new ArrayList<>();
 
     private int punteggio;
+    private boolean superato=false;
 
     public Object getId() {
         return id;
+    }
+
+    public boolean isSuperato() {
+        return superato;
+    }
+
+    public void setSuperato(boolean superato) {
+        this.superato = superato;
     }
 
     public void setId(long id) {

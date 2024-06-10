@@ -1,6 +1,7 @@
 package application.persistance.pojos;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class Student extends PojoAbstract {
     @Column(nullable = false)
     private String codCorso;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "appello_prenotato",
             joinColumns = @JoinColumn(name = "studente_mat"),
@@ -26,7 +27,7 @@ public class Student extends PojoAbstract {
     )
     private List<Appello> prenotazioni = new LinkedList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "appello_completato",
             joinColumns = @JoinColumn(name = "studente_mat"),

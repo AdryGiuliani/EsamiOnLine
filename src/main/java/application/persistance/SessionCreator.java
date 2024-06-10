@@ -35,17 +35,8 @@ public class SessionCreator {
     private static class SessionCreatorHelper{
         private static final SessionCreator instance = new SessionCreator();
     }
-    private static class EMCreatorHelper{
-        private static final EntityManagerFactory instance;
 
-        static {
-                instance = getInstance().getSession().getEntityManagerFactory();
-        }
-    }
     public static SessionCreator getInstance(){
         return SessionCreatorHelper.instance;
-    }
-    public static EntityManagerFactory getEMfactory(){
-        return EMCreatorHelper.instance;
     }
 }

@@ -1,6 +1,5 @@
-package application.validation;
+package application.validation.chainsteps;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractCapsule implements Capsule {
@@ -37,5 +36,13 @@ public abstract class AbstractCapsule implements Capsule {
     @Override
     public void setException(Exception exception) {
         this.exception = exception;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "status=" + status +
+                ", exception=" + exception +
+                '}';
     }
 }

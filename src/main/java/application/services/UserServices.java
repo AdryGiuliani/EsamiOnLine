@@ -1,20 +1,34 @@
 package application.services;
 
-import application.persistance.DBEsami;
-import application.validation.Capsule;
-import application.validation.CapsuleValidate;
-import application.validation.LoginDispatcher;
-import com.google.protobuf.ByteString;
+import application.validation.*;
+import application.validation.chainsteps.CapsuleValidate;
 import gen.javaproto.*;
+import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.util.List;
 
+class MyAuthInterceptor implements ServerInterceptor {
+    public static final Context.Key<Credentials> USER_IDENTITY = Context.key("identity"); // "identity" is just for debugging
+    public static final Metadata.Key<String> MAT = Metadata.Key.of("credentialMat", Metadata.ASCII_STRING_MARSHALLER);
+    public static final Metadata.Key<String> CF = Metadata.Key.of("credentialCf", Metadata.ASCII_STRING_MARSHALLER);
+
+    @Override
+    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
+            ServerCall<ReqT, RespT> call,
+            Metadata headers,
+            ServerCallHandler<ReqT, RespT> next) {
+        // You need to implement validateIdentity
+        String mat = headers.get(MAT);
+        String cf = headers.get(CF);
+        Credentials c = Credentials.newBuilder().setCf(cf).setMat(mat).build();
+        Context context = Context.current().withValue(USER_IDENTITY, c);
+        return Contexts.interceptCall(context, call, headers, next);
+    }
+}
 public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
 
-    private DBEsami db;
+    private final CapsuleDtoAssembler assembler = new CapsuleDtoAssembler();
     public UserServices() {}
 
     /**
@@ -28,18 +42,10 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
     @Override
     public void login(Credentials request, StreamObserver<Dto> responseObserver) {
         CapsuleValidate c = new CapsuleValidate();
+        System.out.println(MyAuthInterceptor.USER_IDENTITY.get());
         c.setCredentials(request);
         new LoginDispatcher().dispatch(c);
-        byte[] dto = null;
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-            oos.writeObject(c);
-            dto = bos.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Dto dt = Dto.newBuilder().setUnparsedDto(ByteString.copyFrom(dto)).build();
+        Dto dt = new CapsuleDtoAssembler().assemble(c);
         responseObserver.onNext(dt);
         responseObserver.onCompleted();
     }
@@ -67,7 +73,15 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
      */
     @Override
     public void getDisponibili(Vuoto request, StreamObserver<Dto> responseObserver) {
-        super.getDisponibili(request, responseObserver);
+        CapsuleValidate c = new CapsuleValidate();
+        parseMetadata(c);
+        System.out.println(c.getCredentials());
+        new DisponibiliDispatcher().dispatch(c);
+        if (c.getStatus()>0)
+            System.out.println("disponibili recuperati");
+        Dto dt = assembler.assemble(c);
+        responseObserver.onNext(dt);
+        responseObserver.onCompleted();
     }
 
     /**
@@ -80,7 +94,13 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
      */
     @Override
     public void prenota(AppelloID request, StreamObserver<Dto> responseObserver) {
-        super.prenota(request, responseObserver);
+        CapsuleValidate c = new CapsuleValidate();
+        parseMetadata(c);
+        c.setAppelloID(request.getId());
+        new PrenotazioneDispatch().dispatch(c);
+        Dto dto = assembler.assemble(c);
+        responseObserver.onNext(dto);
+        responseObserver.onCompleted();
     }
 
     /**
@@ -93,7 +113,13 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
      */
     @Override
     public void cancella(AppelloID request, StreamObserver<Dto> responseObserver) {
-        super.cancella(request, responseObserver);
+        CapsuleValidate c = new CapsuleValidate();
+        parseMetadata(c);
+        c.setAppelloID(request.getId());
+        new CancellaDispatch().dispatch(c);
+        Dto dto = assembler.assemble(c);
+        responseObserver.onNext(dto);
+        responseObserver.onCompleted();
     }
 
     /**
@@ -106,7 +132,13 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
      */
     @Override
     public void partecipa(AppelloID request, StreamObserver<Dto> responseObserver) {
-        super.partecipa(request, responseObserver);
+        CapsuleValidate c = new CapsuleValidate();
+        parseMetadata(c);
+        c.setAppelloID(request.getId());
+        new PartecipaDispatch().dispatch(c);
+        Dto dto = assembler.assemble(c);
+        responseObserver.onNext(dto);
+        responseObserver.onCompleted();
     }
 
     /**
@@ -118,7 +150,16 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
      * @param responseObserver
      */
     @Override
-    public void concludi(CompletedAppello request, StreamObserver<Dto> responseObserver) {
-        super.concludi(request, responseObserver);
+    public void concludi(Dto request, StreamObserver<Dto> responseObserver) {
+        CapsuleValidate c = assembler.disassembleValidate(request);
+        parseMetadata(c);
+        new ConcludiDispatch().dispatch(c);
+        Dto dto = assembler.assemble(c);
+        responseObserver.onNext(dto);
+        responseObserver.onCompleted();
+    }
+
+    private void parseMetadata(CapsuleValidate c){
+        c.setCredentials(MyAuthInterceptor.USER_IDENTITY.get());
     }
 }

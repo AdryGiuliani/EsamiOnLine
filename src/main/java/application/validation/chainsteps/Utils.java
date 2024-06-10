@@ -1,4 +1,4 @@
-package application.validation;
+package application.validation.chainsteps;
 
 class Utils {
     static public final String CAPSULE_KEY_STUDENTE = "studente";

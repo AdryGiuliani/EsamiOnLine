@@ -1,12 +1,10 @@
-package application.validation;
+package application.validation.chainsteps;
 
-import application.persistance.pojos.Appello;
 import application.persistance.pojos.Risultato;
 import application.persistance.pojos.Student;
 import gen.javaproto.Credentials;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class CapsuleValidate extends AbstractCapsule{
 
@@ -41,4 +39,11 @@ public class CapsuleValidate extends AbstractCapsule{
     }
 
 
+    @Override
+    public String toString() {
+        return "CapsuleValidate{" +
+                "payload=" + payload +";\n"+
+                super.toString()+
+                '}';
+    }
 }

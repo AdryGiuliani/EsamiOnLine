@@ -1,6 +1,8 @@
-package application.validation;
+package application.validation.chainsteps;
 
-public interface Capsule {
+import java.io.Serializable;
+
+public interface Capsule extends Serializable {
 
     public void insertObject(String key, Object obj);
     public <T> T getObject(String key, Class<T> clazz);

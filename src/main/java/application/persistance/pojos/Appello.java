@@ -7,9 +7,10 @@ import java.util.*;
 @Entity
 @Table(name = "appello",
         uniqueConstraints = {
-        @UniqueConstraint(name = "unicoAppello", columnNames = {"nome","corso","data_ora"})
+        @UniqueConstraint(name = "unicoAppello", columnNames = {"nome","codcorso","data_ora"})
         })
 public class Appello extends PojoAbstract{
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -17,16 +18,26 @@ public class Appello extends PojoAbstract{
         return id == appello.id;
     }
 
+    public boolean equalsSoft(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appello appello)) return false;
+        return nome.equals(appello.nome) && codcorso.equals(appello.codcorso);
+    }
+
     @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, codCorso, durata_minuti, tempo_domanda_sec, data_ora, studentiPrenotati, risultati, domande);
+    public String toString() {
+        return "Appello{" +
+                "nome='" + nome + '\'' +
+                ", codcorso='" + codcorso + '\'' +
+                ", data_ora=" + data_ora +
+                '}';
     }
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
     private String nome;
-    private String codCorso;
+    private String codcorso;
     @Column(nullable = false)
     private int durata_minuti=60;
     @Column(nullable = false)
@@ -58,12 +69,12 @@ public class Appello extends PojoAbstract{
         this.nome = nome;
     }
 
-    public String getCodCorso() {
-        return codCorso;
+    public String getCodcorso() {
+        return codcorso;
     }
 
-    public void setCodCorso(String codCorso) {
-        this.codCorso = codCorso;
+    public void setCodcorso(String codCorso) {
+        this.codcorso = codCorso;
     }
 
     public int getDurata_minuti() {

@@ -32,25 +32,25 @@ public interface Database {
     };
 
     /**
-     * carica l'oggetto con il dato Id e del tipo di obj dentro obj stesso, ritorna false se la
-     * query non è stata eseguita, assegna invece obj = null se non è stato trovato
-     * @param obj
+     * carica l'oggetto con il dato Id e la Classe, ritorna null se non è stato trovato
+     * @param clazz
      * @param id
      * @return
      */
-    default boolean carica(Pojo obj, Object id){
+    default <T> T carica(Class<T> clazz, Object id){
         boolean status = true;
+        T obj = null;
         try {
             Session session = sc.getSession();
             Transaction tx = session.beginTransaction();
-            obj = session.get(obj.getClass(), id);
+            obj = session.get(clazz, id);
             tx.commit();
             session.close();
         }catch (Exception e){
             System.out.println(e.getMessage());
             status = false;
         }
-        return status;
+        return obj;
     };
     default boolean delete( Pojo obj){
         boolean status = true;
@@ -96,8 +96,8 @@ public interface Database {
         }
         return status;
     }
-    default boolean esiste(Pojo placeholder ,Object id){
-        this.carica(placeholder,id);
+    default <T> boolean esiste(Class<T> type,Object id){
+        T placeholder = this.carica(type,id);
         return placeholder!=null;
     }
 }

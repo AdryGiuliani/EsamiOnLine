@@ -1,7 +1,6 @@
 package application.validation;
 
-import com.google.protobuf.AbstractMessage;
-import com.google.protobuf.Message;
+import application.validation.chainsteps.Capsule;
 
 public interface Dispatcher {
     public void dispatch(Capsule capsule);
