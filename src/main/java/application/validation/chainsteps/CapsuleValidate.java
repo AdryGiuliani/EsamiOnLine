@@ -1,10 +1,13 @@
 package application.validation.chainsteps;
 
+import application.persistance.pojos.Appello;
 import application.persistance.pojos.Risultato;
 import application.persistance.pojos.Student;
+import gen.javaproto.CompletedAppello;
 import gen.javaproto.Credentials;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class CapsuleValidate extends AbstractCapsule{
 
@@ -31,11 +34,20 @@ public class CapsuleValidate extends AbstractCapsule{
     public Long getAppelloID(){
         return (Long) payload.get(Utils.CAPSULE_KEY_APPELLOID);
     }
-    public void setAppelloCompletato(Risultato res){
+    public void setAppelloCompletato(CompletedAppello res){
         insertObject(Utils.CAPSULE_KEY_RISULTATO, res);
     }
-    public Risultato getAppelloCompletato(){
-        return (Risultato) payload.get(Utils.CAPSULE_KEY_RISULTATO);
+
+    public CompletedAppello getAppelloCompletato(){
+        return (CompletedAppello) payload.get(Utils.CAPSULE_KEY_RISULTATO);
+    }
+
+    public List<Appello> getDisponibili(){
+        return (List<Appello>) payload.get(Utils.CAPSULE_KEY_DISPONIBILI);
+    }
+
+    public void setDisponibili(List<Appello> disponibili){
+        insertObject(Utils.CAPSULE_KEY_DISPONIBILI, disponibili);
     }
 
 

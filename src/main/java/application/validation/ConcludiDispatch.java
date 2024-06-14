@@ -8,7 +8,7 @@ public class ConcludiDispatch implements Dispatcher{
 
     @Override
     public void dispatch(Capsule capsule) {
-        AuthStep authStep = new AuthStep(true);
+        AuthStep authStep = new AuthStep(false);
         CompletaAppelloStep completaStep = new CompletaAppelloStep();
         authStep.setNextStep(completaStep);
         authStep.execute(capsule);

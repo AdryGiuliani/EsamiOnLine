@@ -14,7 +14,7 @@ public class Risultato extends PojoAbstract{
     @GeneratedValue
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appello_id")
     private Appello completed_appello = new Appello();
 
@@ -63,5 +63,14 @@ public class Risultato extends PojoAbstract{
 
     public void setPunteggio(int punteggio) {
         this.punteggio = punteggio;
+    }
+
+    @Override
+    public String toString() {
+        return "Risultato{" +
+                "studenti=" + studenti +
+                ", punteggio=" + punteggio +
+                ", superato=" + superato +
+                '}';
     }
 }

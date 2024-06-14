@@ -8,24 +8,6 @@ import io.grpc.stub.StreamObserver;
 
 import java.util.List;
 
-class MyAuthInterceptor implements ServerInterceptor {
-    public static final Context.Key<Credentials> USER_IDENTITY = Context.key("identity"); // "identity" is just for debugging
-    public static final Metadata.Key<String> MAT = Metadata.Key.of("credentialMat", Metadata.ASCII_STRING_MARSHALLER);
-    public static final Metadata.Key<String> CF = Metadata.Key.of("credentialCf", Metadata.ASCII_STRING_MARSHALLER);
-
-    @Override
-    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
-            ServerCall<ReqT, RespT> call,
-            Metadata headers,
-            ServerCallHandler<ReqT, RespT> next) {
-        // You need to implement validateIdentity
-        String mat = headers.get(MAT);
-        String cf = headers.get(CF);
-        Credentials c = Credentials.newBuilder().setCf(cf).setMat(mat).build();
-        Context context = Context.current().withValue(USER_IDENTITY, c);
-        return Contexts.interceptCall(context, call, headers, next);
-    }
-}
 public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
 
     private final CapsuleDtoAssembler assembler = new CapsuleDtoAssembler();
@@ -150,9 +132,10 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
      * @param responseObserver
      */
     @Override
-    public void concludi(Dto request, StreamObserver<Dto> responseObserver) {
-        CapsuleValidate c = assembler.disassembleValidate(request);
+    public void concludi(CompletedAppello request, StreamObserver<Dto> responseObserver) {
+        CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
+        c.setAppelloCompletato(request);
         new ConcludiDispatch().dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);

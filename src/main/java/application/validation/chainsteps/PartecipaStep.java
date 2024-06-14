@@ -4,10 +4,12 @@ import application.exceptions.DeadlineException;
 import application.exceptions.NonPrenotatoException;
 import application.persistance.DBEsami;
 import application.persistance.pojos.Appello;
+import application.persistance.pojos.Risultato;
 import application.persistance.pojos.Student;
 
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 /**
  * Lo step verifica se la richiesta è stata effettuata nellla finestra di tempo disponibile
@@ -27,6 +29,16 @@ public class PartecipaStep extends AbstractStep {
             System.out.println(app.getNome()+">Impossibile partecipare, l'appello non è stato prenotato");
             cap.setStatus(-1);
             cap.setException(new NonPrenotatoException("L'appello non è stato prenotato"));
+            return;
+        }
+        if(s.getCompletato().stream()
+                .anyMatch(
+                        risultato -> risultato.isSuperato() && app.equalsSoft(risultato.getCompleted_appello())
+                ))
+        {
+            System.out.println(app.getNome()+">Impossibile partecipare, appello già superato");
+            cap.setStatus(-1);
+            cap.setException(new NonPrenotatoException("L'appello è già stato superato"));
             return;
         }
         Timestamp deadline = new Timestamp(app.getData_ora().getTime()+app.getDurata_minuti()* TimeUnit.MINUTES.toMillis(1));

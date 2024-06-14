@@ -1,12 +1,15 @@
 package application;
 
 import application.persistance.DBEsami;
+import application.persistance.SessionCreator;
 import application.persistance.pojos.*;
 import application.services.CapsuleDtoAssembler;
 import application.services.ServerEsamiOnLine;
 import application.validation.chainsteps.Capsule;
 import application.validation.chainsteps.CapsuleValidate;
 import gen.javaproto.Dto;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.*;
 import java.util.*;
@@ -18,12 +21,17 @@ public class App {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-
-         ServerEsamiOnLine.start();
+        ServerEsamiOnLine.start();
 //        DBEsami dbEsami = new DBEsami();
+//        System.out.println("help");
+//        System.out.println(dbEsami.getRisultati(1));
+
+//        dbEsami.salvaRisultato("1111",1,20);
 //        Student s = new Student();
-//        s.setCf("1111");
-//        s = dbEsami.carica(Student.class,"1");
+//        s.setMat("2222");
+//        s.setCf("A1B2C3");
+//        s.setCodCorso("BBB");
+//        dbEsami.salva(s);
 //        System.out.println(s);
         //        DBEsami db = new DBEsami();
 //        Student s = new Student();

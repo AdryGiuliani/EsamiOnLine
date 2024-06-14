@@ -27,7 +27,7 @@ service FrontendServices {
     rpc partecipa(AppelloID) returns (Dto);
 
     // conclusione appello dall'utente
-    rpc concludi(Dto) returns (Dto);
+    rpc concludi(CompletedAppello) returns (Dto);
 
 }
 

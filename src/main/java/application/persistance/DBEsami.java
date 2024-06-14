@@ -15,15 +15,26 @@ import org.hibernate.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static application.persistance.SessionCreator.*;
 import static application.persistance.util.Utils.KEY_OPZIONI;
 
 public class DBEsami implements Database{
 
+    private Options caricaOpzioni(){
+        Options opt = this.carica(Options.class, KEY_OPZIONI);
+        if (opt == null) {
+            opt = new Options();
+            this.salva(opt);
+        }
+        return opt;
+    }
+
     public List<Appello> getDisponibili(String mat) {
-        Options opt = this.carica(Options.class, KEY_OPZIONI );
+        Options opt = caricaOpzioni();
         Timestamp deadline = new Timestamp(System.currentTimeMillis()+opt.getDeadline_millis());
         List<Appello> disponibili = new ArrayList<>();
         Session session = sc.getSession();
@@ -65,4 +76,51 @@ public class DBEsami implements Database{
         tx.commit();
         session.close();
     }
+
+    public void salvaRisultato(String mat, long idAppello, int punteggio) {
+        Session session = sc.getSession();
+        Transaction tx = session.beginTransaction();
+        Student s = session.get(Student.class, mat);
+        Appello appello = session.get(Appello.class, idAppello);
+        Risultato result = new Risultato();
+        Options options = caricaOpzioni();
+        result.setSuperato(punteggio>= options.getMinVoto());
+        result.setPunteggio(punteggio);
+        result.setCompleted_appello(appello);
+        s.getCompletato().add(result);
+        tx.commit();
+        session.close();
+    }
+
+    public List<Risultato> getRisultati(long idAppello) throws InterruptedException {
+        Session session = sc.getSession();
+        Transaction tx = session.beginTransaction();
+        Appello appello = session.get(Appello.class, idAppello);
+        List<Risultato> res = appello.getRisultati();
+        session.close();
+        return res;
+    }
+
+    public Collection<Student> getPrenotazioni(long idAppello) {
+        Session session = sc.getSession();
+        Transaction tx = session.beginTransaction();
+        Appello appello = session.get(Appello.class, idAppello);
+        Collection<Student> res = appello.getStudentiPrenotati();
+        tx.commit();
+        session.close();
+        return res;
+    }
+
+    public List<Domanda> getDomande(long idAppello) {
+        Session session = sc.getSession();
+        Transaction tx = session.beginTransaction();
+        Appello appello = session.get(Appello.class, idAppello);
+        List<Domanda> res = appello.getDomande();
+        tx.commit();
+        session.close();
+        return res;
+    }
+
+
+
 }

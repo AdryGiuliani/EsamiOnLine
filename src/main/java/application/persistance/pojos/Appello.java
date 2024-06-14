@@ -48,10 +48,10 @@ public class Appello extends PojoAbstract{
     @ManyToMany(mappedBy = "prenotazioni",cascade = CascadeType.ALL)
     private Set<Student> studentiPrenotati;
 
-    @OneToOne(mappedBy = "completed_appello")
-    private Risultato risultati;
+    @OneToMany(mappedBy = "completed_appello")
+    private List<Risultato> risultati;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL )
     @JoinColumn
     private List<Domanda> domande = new ArrayList<>();
 
@@ -120,11 +120,11 @@ public class Appello extends PojoAbstract{
         this.studentiPrenotati = studentiPrenotati;
     }
 
-    public Risultato getRisultati() {
+    public List<Risultato> getRisultati() {
         return risultati;
     }
 
-    public void setRisultati(Risultato risultati) {
+    public void setRisultati(List<Risultato> risultati) {
         this.risultati = risultati;
     }
 }
