@@ -21,10 +21,9 @@ public class App {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        ServerEsamiOnLine.start();
-//        DBEsami dbEsami = new DBEsami();
-//        System.out.println("help");
-//        System.out.println(dbEsami.getRisultati(1));
+//        ServerEsamiOnLine.start();
+        DBEsami dbEsami = new DBEsami();
+        System.out.println(dbEsami.getAllAppelli().getFirst().getRisultati());
 
 //        dbEsami.salvaRisultato("1111",1,20);
 //        Student s = new Student();
@@ -33,11 +32,12 @@ public class App {
 //        s.setCodCorso("BBB");
 //        dbEsami.salva(s);
 //        System.out.println(s);
-        //        DBEsami db = new DBEsami();
-//        Student s = new Student();
+//        //        DBEsami db = new DBEsami();
+//        s = new Student();
 //        s.setMat("1111");
 //        s.setCf("ABC123");
 //        s.setCodCorso("AAA");
+//        dbEsami.salva(s);
 //        ArrayList<Risposta>risp = new ArrayList<>();
 //        risp.add(new Risposta(true,"patate"));
 //        Domanda d = new Domanda("aaaaaaa", risp);
@@ -50,11 +50,11 @@ public class App {
 //        app.setDomande(dom);
 //        app.setNome("pipo");
 //        Appello app2 = new Appello();
-//        app2.setCodCorso("AAA");
+//        app2.setCodcorso("AAA");
 //        app2.setData_ora(new Date(System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(2)));
 //        app2.setDomande(dom);
 //        app2.setNome("pipo");
-//        db.salva(app,app2);
+//        dbEsami.salva(app,app2);
 //        ObjectMapper om = new ObjectMapper();
 //        String json = om.writeValueAsString(app);
 //        FileOutputStream fo = new FileOutputStream("testfile");

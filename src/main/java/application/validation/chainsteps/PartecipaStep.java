@@ -4,10 +4,12 @@ import application.exceptions.DeadlineException;
 import application.exceptions.NonPrenotatoException;
 import application.persistance.DBEsami;
 import application.persistance.pojos.Appello;
+import application.persistance.pojos.Domanda;
 import application.persistance.pojos.Risultato;
 import application.persistance.pojos.Student;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
@@ -49,6 +51,7 @@ public class PartecipaStep extends AbstractStep {
             cap.setException(new DeadlineException("L'appello deve iniziare o è già terminato"));
             return;
         }
+        cap.insertObject(Utils.CAPSULE_KEY_DOMANDE,db.getDomande((Long)app.getId()));
         if (nextStep!=null)
             nextStep.execute(cap);
 

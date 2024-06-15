@@ -10,12 +10,14 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
+import org.checkerframework.checker.units.qual.A;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +26,7 @@ import static application.persistance.util.Utils.KEY_OPZIONI;
 
 public class DBEsami implements Database{
 
-    private Options caricaOpzioni(){
+    public Options caricaOpzioni(){
         Options opt = this.carica(Options.class, KEY_OPZIONI);
         if (opt == null) {
             opt = new Options();
@@ -92,7 +94,7 @@ public class DBEsami implements Database{
         session.close();
     }
 
-    public List<Risultato> getRisultati(long idAppello) throws InterruptedException {
+    public List<Risultato> getRisultati(long idAppello){
         Session session = sc.getSession();
         Transaction tx = session.beginTransaction();
         Appello appello = session.get(Appello.class, idAppello);
@@ -101,6 +103,7 @@ public class DBEsami implements Database{
         return res;
     }
 
+    /*
     public Collection<Student> getPrenotazioni(long idAppello) {
         Session session = sc.getSession();
         Transaction tx = session.beginTransaction();
@@ -110,12 +113,32 @@ public class DBEsami implements Database{
         session.close();
         return res;
     }
-
+*/
     public List<Domanda> getDomande(long idAppello) {
         Session session = sc.getSession();
         Transaction tx = session.beginTransaction();
         Appello appello = session.get(Appello.class, idAppello);
         List<Domanda> res = appello.getDomande();
+        tx.commit();
+        session.close();
+        return res;
+    }
+
+    public List<Appello> getAllAppelli(){
+        List<Appello> res = new ArrayList<>();
+        Session session = sc.getSession();
+        Transaction tx = session.beginTransaction();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Appello> cquery = cb.createQuery(Appello.class);
+        Root<Appello> app_root = cquery.from(Appello.class);
+        cquery.select(app_root);
+        Query q = session.createQuery(cquery);
+        res = q.getResultList();
+        res.sort((o1, o2) -> o2.getData_ora().compareTo(o1.getData_ora()));
+        for (Appello a : res){ //purtroppo necessario per mantenere lazy loading su pojo Appelli
+            System.out.println(a.getDomande());
+            System.out.println(a.getRisultati());
+        }
         tx.commit();
         session.close();
         return res;

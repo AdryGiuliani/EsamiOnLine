@@ -8,9 +8,7 @@ import io.grpc.stub.StreamObserver;
 
 import java.util.List;
 
-public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
-
-    private final CapsuleDtoAssembler assembler = new CapsuleDtoAssembler();
+public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase implements Service{
     public UserServices() {}
 
     /**
@@ -140,9 +138,5 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase{
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();
-    }
-
-    private void parseMetadata(CapsuleValidate c){
-        c.setCredentials(MyAuthInterceptor.USER_IDENTITY.get());
     }
 }

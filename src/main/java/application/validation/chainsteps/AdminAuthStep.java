@@ -1,0 +1,29 @@
+package application.validation.chainsteps;
+
+import application.exceptions.CredenzialiErrateException;
+import application.persistance.DBEsami;
+import application.persistance.Database;
+import application.persistance.pojos.Options;
+import application.persistance.pojos.Student;
+import gen.javaproto.Credentials;
+
+import static application.validation.chainsteps.Utils.CAPSULE_KEY_CREDENZIALI;
+import static application.validation.chainsteps.Utils.CAPSULE_KEY_STUDENTE;
+
+public class AdminAuthStep extends AbstractStep{
+
+    @Override
+    public void execute(Capsule cap) {
+        Credentials c = cap.getObject(CAPSULE_KEY_CREDENZIALI,Credentials.class);
+        DBEsami db = new DBEsami();
+        Options s = db.carica(Options.class, application.persistance.util.Utils.KEY_OPZIONI);
+
+        if (!s.getAdmin_usrn().equals(c.getCf()) || !s.getAdmin_pwd().equals(c.getMat())){
+            cap.setStatus(-1);
+            cap.setException(new CredenzialiErrateException("Credenziali errate"));
+            return;
+        }
+        if (nextStep!=null)
+            nextStep.execute(cap);
+    }
+}

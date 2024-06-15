@@ -45,8 +45,6 @@ public class Appello extends PojoAbstract{
     @Temporal(TemporalType.TIMESTAMP)
     private Date data_ora;
 
-    @ManyToMany(mappedBy = "prenotazioni",cascade = CascadeType.ALL)
-    private Set<Student> studentiPrenotati;
 
     @OneToMany(mappedBy = "completed_appello")
     private List<Risultato> risultati;
@@ -110,14 +108,6 @@ public class Appello extends PojoAbstract{
 
     public void setTempo_domanda_sec(int tempo_domanda_sec) {
         this.tempo_domanda_sec = tempo_domanda_sec;
-    }
-
-    public Set<Student> getStudentiPrenotati() {
-        return studentiPrenotati;
-    }
-
-    public void setStudentiPrenotati(Set<Student> studentiPrenotati) {
-        this.studentiPrenotati = studentiPrenotati;
     }
 
     public List<Risultato> getRisultati() {

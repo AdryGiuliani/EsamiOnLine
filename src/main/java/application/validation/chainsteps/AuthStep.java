@@ -23,7 +23,7 @@ public class AuthStep extends AbstractStep{
         Credentials c = cap.getObject(CAPSULE_KEY_CREDENZIALI,Credentials.class);
         Database db = new DBEsami();
         Student s = db.carica(Student.class, c.getMat());
-        if (s == null){//typo intellij, s viene aggiornato per riferimento in db.carica
+        if (s == null){
             cap.setException(new CredenzialiErrateException("matricola errata, utente non presente nel sistema"));
             cap.setStatus(-1);
             return;

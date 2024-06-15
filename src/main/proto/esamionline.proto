@@ -31,6 +31,22 @@ service FrontendServices {
 
 }
 
+service AdminServices{
+  rpc login(Credentials) returns (Dto);
+
+  rpc rimuovi(AppelloID) returns (Dto);
+
+  rpc aggiungi(Dto) returns (Dto);
+
+  rpc modifica(Dto) returns (Dto);
+
+  rpc get_all_Appelli(Vuoto) returns (Dto);
+
+  rpc get_options(Vuoto) returns (Dto);
+
+  rpc set_options(Dto) returns (Dto);
+}
+
 // The request message containing the user's name.
 message Credentials {
   string mat = 1;
