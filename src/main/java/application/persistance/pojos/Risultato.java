@@ -19,11 +19,20 @@ public class Risultato extends PojoAbstract{
     private Appello completed_appello = new Appello();
 
 
-    @ManyToMany(mappedBy = "risultati")
-    private List<Student> studenti = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "studente_mat")
+    private Student studente = new Student();
 
     private int punteggio;
     private boolean superato=false;
+
+    public Student getStudente() {
+        return studente;
+    }
+
+    public void setStudente(Student studente) {
+        this.studente = studente;
+    }
 
     public Object getId() {
         return id;
@@ -49,13 +58,6 @@ public class Risultato extends PojoAbstract{
         this.completed_appello = completed_appello;
     }
 
-    public List<Student> getStudenti() {
-        return studenti;
-    }
-
-    public void setStudenti(List<Student> studenti) {
-        this.studenti = studenti;
-    }
 
     public int getPunteggio() {
         return punteggio;
@@ -68,7 +70,7 @@ public class Risultato extends PojoAbstract{
     @Override
     public String toString() {
         return "Risultato{" +
-                "studenti=" + studenti +
+                "studenti=" + studente +
                 ", punteggio=" + punteggio +
                 ", superato=" + superato +
                 '}';

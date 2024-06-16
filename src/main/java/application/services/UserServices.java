@@ -1,7 +1,7 @@
 package application.services;
 
 import application.validation.*;
-import application.validation.chainsteps.CapsuleValidate;
+import application.validation.chainsteps.*;
 import gen.javaproto.*;
 import io.grpc.*;
 import io.grpc.stub.StreamObserver;
@@ -24,8 +24,8 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         System.out.println(MyAuthInterceptor.USER_IDENTITY.get());
         c.setCredentials(request);
-        new LoginDispatcher().dispatch(c);
-        Dto dt = new CapsuleDtoAssembler().assemble(c);
+        new SimpleDispatch(new AuthStep(true), new DisponibiliStep()).dispatch(c);
+        Dto dt = assembler.assemble(c);
         responseObserver.onNext(dt);
         responseObserver.onCompleted();
     }
@@ -56,7 +56,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         System.out.println(c.getCredentials());
-        new DisponibiliDispatcher().dispatch(c);
+        new SimpleDispatch(new AuthStep(false), new DisponibiliStep()).dispatch(c);
         if (c.getStatus()>0)
             System.out.println("disponibili recuperati");
         Dto dt = assembler.assemble(c);
@@ -77,7 +77,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         c.setAppelloID(request.getId());
-        new PrenotazioneDispatch().dispatch(c);
+        new SimpleDispatch(new AuthStep(false), new PrenotaStep(true)).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();
@@ -96,7 +96,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         c.setAppelloID(request.getId());
-        new CancellaDispatch().dispatch(c);
+        new SimpleDispatch(new AuthStep(false), new CancellaPrenotazioneStep()).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();
@@ -115,7 +115,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         c.setAppelloID(request.getId());
-        new PartecipaDispatch().dispatch(c);
+        new SimpleDispatch(new AuthStep(false), new PartecipaStep()).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();
@@ -134,7 +134,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         c.setAppelloCompletato(request);
-        new ConcludiDispatch().dispatch(c);
+        new SimpleDispatch(new AuthStep(false), new CompletaAppelloStep()).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();

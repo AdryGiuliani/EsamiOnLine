@@ -1,6 +1,7 @@
 package application.validation.chainsteps;
 
 import application.persistance.pojos.Appello;
+import application.persistance.pojos.Options;
 import application.persistance.pojos.Risultato;
 import application.persistance.pojos.Student;
 import gen.javaproto.CompletedAppello;
@@ -38,6 +39,7 @@ public class CapsuleValidate extends AbstractCapsule{
         insertObject(Utils.CAPSULE_KEY_RISULTATO, res);
     }
 
+
     public CompletedAppello getAppelloCompletato(){
         return (CompletedAppello) payload.get(Utils.CAPSULE_KEY_RISULTATO);
     }
@@ -48,6 +50,26 @@ public class CapsuleValidate extends AbstractCapsule{
 
     public void setDisponibili(List<Appello> disponibili){
         insertObject(Utils.CAPSULE_KEY_DISPONIBILI, disponibili);
+    }
+
+    public List<Appello> getall_appelli(){
+        return (List<Appello>) payload.get(Utils.CAPSULE_KEY_ALLAPPELLI);
+    }
+
+    public Options getOptions(){return (Options) payload.get(Utils.CAPSULE_KEY_OPTIONS);}
+    public void setOptions(Options options){
+        insertObject(Utils.CAPSULE_KEY_OPTIONS, options);
+    }
+
+    public void setModAppello(Appello modAppello){
+        insertObject(Utils.CAPSULE_KEY_APPELLO_CREATO, modAppello);
+    }
+
+    public Appello getAppelloCreato(){
+        return (Appello) payload.get(Utils.CAPSULE_KEY_APPELLO_CREATO);
+    }
+    public void setAppelloCreato(Appello appelloCreato){
+        insertObject(Utils.CAPSULE_KEY_APPELLO_CREATO, appelloCreato);
     }
 
 

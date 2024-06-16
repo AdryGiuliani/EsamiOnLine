@@ -89,6 +89,7 @@ public class DBEsami implements Database{
         result.setSuperato(punteggio>= options.getMinVoto());
         result.setPunteggio(punteggio);
         result.setCompleted_appello(appello);
+        result.setStudente(s);
         s.getCompletato().add(result);
         tx.commit();
         session.close();

@@ -21,16 +21,16 @@ public class App {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-//        ServerEsamiOnLine.start();
-        DBEsami dbEsami = new DBEsami();
-        System.out.println(dbEsami.getAllAppelli().getFirst().getRisultati());
-
+        ServerEsamiOnLine.start();
+//        DBEsami dbEsami = new DBEsami();
+//        System.out.println(dbEsami.getAllAppelli().get(1).getRisultati());
+//
 //        dbEsami.salvaRisultato("1111",1,20);
 //        Student s = new Student();
-//        s.setMat("2222");
-//        s.setCf("A1B2C3");
+//        s.setMat("3333");
+//        s.setCf("AAAA");
 //        s.setCodCorso("BBB");
-//        dbEsami.salva(s);
+//        dbEsami.update_or_add(s);
 //        System.out.println(s);
 //        //        DBEsami db = new DBEsami();
 //        s = new Student();

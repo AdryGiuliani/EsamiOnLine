@@ -12,6 +12,7 @@ public class ServerEsamiOnLine {
         public static void start() throws IOException, InterruptedException {
             Server server = Grpc.newServerBuilderForPort(port, InsecureServerCredentials.create())
                     .addService(new UserServices())
+                    .addService(new AdminServices())
                     .intercept(new MyAuthInterceptor())
                     .build()
                     .start();

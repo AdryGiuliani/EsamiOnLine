@@ -27,12 +27,7 @@ public class Student extends PojoAbstract {
     )
     private List<Appello> prenotazioni = new LinkedList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "appello_completato",
-            joinColumns = @JoinColumn(name = "studente_mat"),
-            inverseJoinColumns = @JoinColumn(name = "risultato_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "studente")
     private List<Risultato> risultati = new LinkedList<>();
 
     public String getCodCorso() {

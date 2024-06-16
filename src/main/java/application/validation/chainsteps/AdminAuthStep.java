@@ -17,8 +17,7 @@ public class AdminAuthStep extends AbstractStep{
         Credentials c = cap.getObject(CAPSULE_KEY_CREDENZIALI,Credentials.class);
         DBEsami db = new DBEsami();
         Options s = db.carica(Options.class, application.persistance.util.Utils.KEY_OPZIONI);
-
-        if (!s.getAdmin_usrn().equals(c.getCf()) || !s.getAdmin_pwd().equals(c.getMat())){
+        if (!s.getAdmin_usrn().equals(c.getMat()) || !s.getAdmin_pwd().equals(c.getCf())){
             cap.setStatus(-1);
             cap.setException(new CredenzialiErrateException("Credenziali errate"));
             return;

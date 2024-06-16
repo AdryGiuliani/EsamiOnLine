@@ -8,4 +8,6 @@ class Utils {
     public static final String CAPSULE_KEY_RISULTATO = "risultato_studente";
     public static final String CAPSULE_KEY_ALLAPPELLI= "allappelli";
     public static final String CAPSULE_KEY_DOMANDE= "domande_appello";
+    public static final String CAPSULE_KEY_APPELLO_CREATO= "new_appello";
+    public static final String CAPSULE_KEY_OPTIONS= "opzioni";
 }
