@@ -2,13 +2,10 @@ package application.validation.chainsteps;
 
 import application.exceptions.CredenzialiErrateException;
 import application.persistance.DBEsami;
-import application.persistance.Database;
 import application.persistance.pojos.Options;
-import application.persistance.pojos.Student;
 import gen.javaproto.Credentials;
 
 import static application.validation.chainsteps.Utils.CAPSULE_KEY_CREDENZIALI;
-import static application.validation.chainsteps.Utils.CAPSULE_KEY_STUDENTE;
 
 public class AdminAuthStep extends AbstractStep{
 

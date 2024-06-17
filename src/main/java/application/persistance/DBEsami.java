@@ -100,6 +100,7 @@ public class DBEsami implements Database{
         Transaction tx = session.beginTransaction();
         Appello appello = session.get(Appello.class, idAppello);
         List<Risultato> res = appello.getRisultati();
+        appello.getRisultati().size();
         session.close();
         return res;
     }
@@ -116,10 +117,13 @@ public class DBEsami implements Database{
     }
 */
     public List<Domanda> getDomande(long idAppello) {
+
         Session session = sc.getSession();
         Transaction tx = session.beginTransaction();
+        List<Domanda> res = new ArrayList<>();
         Appello appello = session.get(Appello.class, idAppello);
-        List<Domanda> res = appello.getDomande();
+        res = appello.getDomande();
+        appello.getDomande().size(); //forcing lazy loading
         tx.commit();
         session.close();
         return res;

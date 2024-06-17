@@ -47,12 +47,11 @@ public class Appello extends PojoAbstract{
 
 
     @OneToMany(mappedBy = "completed_appello")
-    private List<Risultato> risultati;
+    private List<Risultato> risultati = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL )
     @JoinColumn
     private List<Domanda> domande = new ArrayList<>();
-
 
     @Override
     public Object getId() {

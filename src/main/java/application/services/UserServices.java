@@ -24,7 +24,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         System.out.println(MyAuthInterceptor.USER_IDENTITY.get());
         c.setCredentials(request);
-        new SimpleDispatch(new AuthStep(true), new DisponibiliStep()).dispatch(c);
+        new SimpleDispatch(new AuthStep(true), new DisponibiliStep(), new DeadlineStep()).dispatch(c);
         Dto dt = assembler.assemble(c);
         responseObserver.onNext(dt);
         responseObserver.onCompleted();
@@ -96,12 +96,11 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         c.setAppelloID(request.getId());
-        new SimpleDispatch(new AuthStep(false), new CancellaPrenotazioneStep()).dispatch(c);
+        new SimpleDispatch(new AuthStep(true), new CancellaPrenotazioneStep()).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();
     }
-
     /**
      * <pre>
      * conferma partecipazione appello
@@ -135,6 +134,17 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         parseMetadata(c);
         c.setAppelloCompletato(request);
         new SimpleDispatch(new AuthStep(false), new CompletaAppelloStep()).dispatch(c);
+        Dto dto = assembler.assemble(c);
+        responseObserver.onNext(dto);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getFullAppello(AppelloID request, StreamObserver<Dto> responseObserver){
+        CapsuleValidate c = new CapsuleValidate();
+        parseMetadata(c);
+        c.setAppelloID(request.getId());
+        new SimpleDispatch(new AuthStep(false), new getFullAppStep()).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();

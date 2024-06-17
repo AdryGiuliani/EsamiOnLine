@@ -23,6 +23,9 @@ service FrontendServices {
     //cancella prenotazione
     rpc cancella(AppelloID) returns (Dto);
 
+    //ottiene appello con domande caricate (Lazy loading)
+    rpc getFullAppello(AppelloID) returns (Dto);
+
     // conferma partecipazione appello
     rpc partecipa(AppelloID) returns (Dto);
 

@@ -72,6 +72,15 @@ public class CapsuleValidate extends AbstractCapsule{
         insertObject(Utils.CAPSULE_KEY_APPELLO_CREATO, appelloCreato);
     }
 
+    public long getDeadline(){
+        return (Long) payload.get(Utils.CAPSULE_KEY_OPTIONS_DEADLINE);
+    }
+
+    void setDeadline(long deadline){
+        payload.put(Utils.CAPSULE_KEY_OPTIONS_DEADLINE, deadline);
+    }
+
+
 
     @Override
     public String toString() {

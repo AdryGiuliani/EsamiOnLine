@@ -23,7 +23,7 @@ public class App {
 
         ServerEsamiOnLine.start();
 //        DBEsami dbEsami = new DBEsami();
-//        System.out.println(dbEsami.getAllAppelli().get(1).getRisultati());
+//        System.out.println(dbEsami.getDomande(1));
 //
 //        dbEsami.salvaRisultato("1111",1,20);
 //        Student s = new Student();
