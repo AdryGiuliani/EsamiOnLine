@@ -80,6 +80,10 @@ public class CapsuleValidate extends AbstractCapsule{
         payload.put(Utils.CAPSULE_KEY_OPTIONS_DEADLINE, deadline);
     }
 
+    public int getSoglia(){
+        return (int) payload.get(Utils.CAPSULE_KEY_OPTIONS_SOGLIA);
+    }
+
 
 
     @Override

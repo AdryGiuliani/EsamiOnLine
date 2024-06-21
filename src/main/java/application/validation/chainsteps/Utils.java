@@ -11,4 +11,6 @@ class Utils {
     public static final String CAPSULE_KEY_APPELLO_CREATO= "new_appello";
     public static final String CAPSULE_KEY_OPTIONS= "opzioni";
     public static final String CAPSULE_KEY_OPTIONS_DEADLINE= "opzioni_deadline";
+    public static final String CAPSULE_KEY_OPTIONS_SOGLIA= "opzioni_soglia";
+
 }

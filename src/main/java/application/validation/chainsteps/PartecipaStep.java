@@ -35,7 +35,7 @@ public class PartecipaStep extends AbstractStep {
         }
         if(s.getCompletato().stream()
                 .anyMatch(
-                        risultato -> risultato.isSuperato() && app.equalsSoft(risultato.getCompleted_appello())
+                        risultato -> app.equals(risultato.getCompleted_appello()) || risultato.isSuperato() && app.equalsSoft(risultato.getCompleted_appello())
                 ))
         {
             System.out.println(app.getNome()+">Impossibile partecipare, appello già superato");

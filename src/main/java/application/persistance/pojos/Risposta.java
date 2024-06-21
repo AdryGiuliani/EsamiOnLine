@@ -3,9 +3,21 @@ package application.persistance.pojos;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public final class Risposta implements Serializable {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Risposta risposta)) return false;
+        return Objects.equals(text, risposta.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(text);
+    }
 
     private boolean corretta = false;
     private String text;

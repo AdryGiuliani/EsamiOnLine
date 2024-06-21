@@ -21,6 +21,11 @@ public class AuthStep extends AbstractStep{
     @Override
     public void execute(Capsule cap){
         Credentials c = cap.getObject(CAPSULE_KEY_CREDENZIALI,Credentials.class);
+        if (c == null){
+            cap.setException(new CredenzialiErrateException("Credenziali non ricevute"));
+            cap.setStatus(-1);
+            return;
+        }
         Database db = new DBEsami();
         Student s = db.carica(Student.class, c.getMat());
         if (s == null){

@@ -12,9 +12,8 @@ public final class Domanda extends PojoAbstract{
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String text;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Risposta> risposte = new ArrayList<>();
-
     public String getText() {
         return text;
     }

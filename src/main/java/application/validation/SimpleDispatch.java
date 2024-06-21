@@ -9,6 +9,6 @@ import java.util.List;
 public class SimpleDispatch extends AbstractDispatch {
 
     public SimpleDispatch(Step... steps) {
-        this.steps = Arrays.asList(steps);
+            this.steps = Arrays.asList(steps);
     }
 }

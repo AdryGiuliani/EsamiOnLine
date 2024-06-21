@@ -114,7 +114,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         CapsuleValidate c = new CapsuleValidate();
         parseMetadata(c);
         c.setAppelloID(request.getId());
-        new SimpleDispatch(new AuthStep(false), new PartecipaStep()).dispatch(c);
+        new SimpleDispatch(new AuthStep(true), new PartecipaStep()).dispatch(c);
         Dto dto = assembler.assemble(c);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();

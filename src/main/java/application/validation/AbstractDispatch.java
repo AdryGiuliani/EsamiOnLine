@@ -24,6 +24,11 @@ public abstract class AbstractDispatch implements Dispatcher{
             prev.setNextStep(cur);
             prev = cur;
         }
-        first.execute(capsule);
+        try {
+            first.execute(capsule);
+        }catch (Exception e){ //eseguito solo in caso di errori non previsti dagli step
+            capsule.setStatus(-1);
+            capsule.setException(e);
+        }
     }
 }
