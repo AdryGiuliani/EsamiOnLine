@@ -32,7 +32,7 @@ public class AuthStep extends AbstractStep{
             cap.setException(new CredenzialiErrateException("matricola errata, utente non presente nel sistema"));
             cap.setStatus(-1);
             return;
-        } else if (!s.getCf().equals(c.getCf().toUpperCase())) {
+        } else if (!s.getCf().equalsIgnoreCase(c.getCf())) {
             cap.setStatus(-1);
             cap.setException(new CredenzialiErrateException("Codice fiscale errato"));
             return;

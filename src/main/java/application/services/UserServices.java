@@ -16,7 +16,7 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
      * Login function
      * </pre>
      *
-     * @param request
+     * @param request le credenziali Credential da autenticare
      * @param responseObserver
      */
     @Override
@@ -30,25 +30,13 @@ public class UserServices extends FrontendServicesGrpc.FrontendServicesImplBase 
         responseObserver.onCompleted();
     }
 
-    /**
-     * <pre>
-     * Logout
-     * </pre>
-     *
-     * @param request
-     * @param responseObserver
-     */
-    @Override
-    public void logout(Vuoto request, StreamObserver<GenericResponse> responseObserver) {
-        super.logout(request, responseObserver);
-    }
 
     /**
      * <pre>
      * get degli appelli disponibili per l'utente indicato
      * </pre>
      *
-     * @param request
+     * @param request nessuna informazione richiesta, richiede credenziali nei metadata
      * @param responseObserver
      */
     @Override

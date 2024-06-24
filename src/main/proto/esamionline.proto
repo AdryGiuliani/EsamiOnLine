@@ -9,13 +9,9 @@ service FrontendServices {
   rpc login(Credentials) returns (Dto);
   //una volta accesso al sistema tutte le richieste conterranno metadata su id utente
 
-    // Logout
-    rpc logout(Vuoto) returns (GenericResponse); //one way
-
     // get degli appelli disponibili per l'utente indicato
+
     rpc getDisponibili(Vuoto) returns (Dto);
-
-
 
     //prenota un appello, restituisce la lista aggiornata se è cambiata
     rpc prenota(AppelloID) returns (Dto);

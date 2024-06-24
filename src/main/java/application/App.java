@@ -21,40 +21,40 @@ public class App {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        ServerEsamiOnLine.start();
-//        DBEsami dbEsami = new DBEsami();
-//        System.out.println(dbEsami.getDomande(1));
+
+ //       ServerEsamiOnLine.start();
+        DBEsami dbEsami = new DBEsami();
 //
 //        dbEsami.salvaRisultato("1111",1,20);
-//        Student s = new Student();
-//        s.setMat("3333");
-//        s.setCf("AAAA");
-//        s.setCodCorso("BBB");
-//        dbEsami.update_or_add(s);
-//        System.out.println(s);
-//        //        DBEsami db = new DBEsami();
-//        s = new Student();
-//        s.setMat("1111");
-//        s.setCf("ABC123");
-//        s.setCodCorso("AAA");
-//        dbEsami.salva(s);
-//        ArrayList<Risposta>risp = new ArrayList<>();
-//        risp.add(new Risposta(true,"patate"));
-//        Domanda d = new Domanda("aaaaaaa", risp);
-//
-//        List<Domanda> dom = new ArrayList<>();
-//        dom.add(d);
-//        Appello app = new Appello();
-//        app.setCodcorso("AAA");
-//        app.setData_ora(new Date(System.currentTimeMillis()));
-//        app.setDomande(dom);
-//        app.setNome("pipo");
-//        Appello app2 = new Appello();
-//        app2.setCodcorso("AAA");
-//        app2.setData_ora(new Date(System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(2)));
-//        app2.setDomande(dom);
-//        app2.setNome("pipo");
-//        dbEsami.salva(app,app2);
+        Student s = new Student();
+        s.setMat("1234");
+        s.setCf("ABC");
+        s.setCodCorso("ing_info");
+        dbEsami.update_or_add(s);
+        System.out.println(s);
+        //        DBEsami db = new DBEsami();
+        s = new Student();
+        s.setMat("1111");
+        s.setCf("ABC123");
+        s.setCodCorso("AAA");
+        dbEsami.salva(s);
+        ArrayList<Risposta>risp = new ArrayList<>();
+        risp.add(new Risposta(true,"patate"));
+        Domanda d = new Domanda("aaaaaaa", risp);
+
+        List<Domanda> dom = new ArrayList<>();
+        dom.add(d);
+        Appello app = new Appello();
+        app.setCodcorso("AAA");
+        app.setData_ora(new Date(System.currentTimeMillis()));
+        app.setDomande(dom);
+        app.setNome("pipo");
+        Appello app2 = new Appello();
+        app2.setCodcorso("AAA");
+        app2.setData_ora(new Date(System.currentTimeMillis()+ TimeUnit.DAYS.toMillis(2)));
+        app2.setDomande(dom);
+        app2.setNome("pipo");
+        dbEsami.salva(app,app2);
 //        ObjectMapper om = new ObjectMapper();
 //        String json = om.writeValueAsString(app);
 //        FileOutputStream fo = new FileOutputStream("testfile");
