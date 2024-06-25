@@ -72,7 +72,7 @@ public interface Database {
         try {
             Session session = sc.getSession();
             Transaction tx = session.beginTransaction();
-            session.load(placeholder, id);
+            placeholder = session.get(placeholder.getClass(),id);
             session.remove(placeholder);
             tx.commit();
             session.close();
@@ -82,19 +82,18 @@ public interface Database {
         }
         return status;
     }
-    default boolean update_or_add(Pojo obj){
-        boolean status = true;
+    default Object update_or_add(Pojo obj){
+        Object id = null;
         try {
             Session session = sc.getSession();
             Transaction tx = session.beginTransaction();
-            session.merge(obj);
+            id = session.merge(obj).getId();
             tx.commit();
             session.close();
         }catch (Exception e){
             System.out.println(e.getMessage());
-            status = false;
         }
-        return status;
+        return id;
     }
     default <T> boolean esiste(Class<T> type,Object id){
         T placeholder = this.carica(type,id);
