@@ -68,5 +68,3 @@ Check the source under `src/main` and `src/test` for exact package names, servic
 ---
 
 ## License
-
-Add license information here or reference a `LICENSE` file.
